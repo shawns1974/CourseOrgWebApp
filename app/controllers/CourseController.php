@@ -87,7 +87,8 @@ class CourseController extends BaseController {
             // should add the correct user
             $Course->users()->save($user);
 
-            return Redirect::to('/')->with('message', 'Course Added Successfully');
+            
+            $this->layout->content = View::make('course/show')->with('course', $course)->with('success', 'Course Added Successfully');
         }
     }
 
@@ -101,6 +102,11 @@ class CourseController extends BaseController {
     public function show(Course $course)
     {
         //
+
+        $this->layout->content = View::make('course/show')->with('course', $course);
+
+
+
     }
 
     /**
@@ -112,7 +118,7 @@ class CourseController extends BaseController {
     public function edit(Course $course)
     {
         
-// get the nerd
+
         //$course = Course::where('coursename', $course)->first();
 
 
@@ -191,7 +197,7 @@ class CourseController extends BaseController {
 
             $Course->coursetypes()->sync(Input::get('coursetypes'));
 
-            return Redirect::to('/')->with('success', 'Course Updated Successfully');
+            $this->layout->content = View::make('course/show')->with('course', $course)->with('success', 'Course Updated Successfully');
         }
     }
 

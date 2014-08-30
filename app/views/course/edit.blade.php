@@ -11,7 +11,7 @@
 	<h2>Edit Course</h2>
 </div>
  
- {{ implode('|',$myVar); }}<br>
+ 
 {{ $course->coursename }}
 
 	{{ Form::model($course, ['method' => 'PATCH', 'route' => ['courses.update', $course->coursename]]) }}

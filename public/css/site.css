@@ -1,0 +1,15 @@
+/*!
+ * This is my crapass attempt at css
+*/
+
+
+.courseNavs {
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .courseNavs {
+  text-align: left;
+  padding-top:10px;
+  }
+}

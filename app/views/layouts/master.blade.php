@@ -9,9 +9,18 @@
         <meta name="viewport" content="width=device-width, intial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE-edge">
 
+        <script src="//cdn.ckeditor.com/4.4.4/standard/ckeditor.js"></script>
+
+
+        <!-- Scripts are placed here -->
+        {{ HTML::script('js/jquery-1.11.1.min.js') }}
+        {{ HTML::script('js/bootstrap.min.js') }}
+
         <!-- CSS are placed here -->
         {{ HTML::style('css/bootstrap.css') }}
         {{ HTML::style('css/bootstrap-theme.css') }}
+
+        {{ HTML::style('css/site.css') }}
 
         <style>
         @section('styles')
@@ -72,9 +81,6 @@
 
         </div>
 
-        <!-- Scripts are placed here -->
-        {{ HTML::script('js/jquery-1.11.1.min.js') }}
-        {{ HTML::script('js/bootstrap.min.js') }}
 
     </body>
 </html>
