@@ -61,10 +61,15 @@
 	    <label class="control-label" for="body">Course Type</label>
 	    <div class="controls">
 
-	    	
 	    	@foreach (Coursetype::all() as $coursetype)
-	    		<input type="checkbox" name="coursetypes[]" id="{{ 'courseType' + strval($coursetype->id) }}" value="{{ $coursetype->id }}" <?=in_array( strval($coursetype->id), $myVar) ? ' Checked' : ''; ?>>
+	    		<?php if ($myVar != "create"){ ?>
+	    			<input type="checkbox" name="coursetypes[]" id="{{ 'courseType' + strval($coursetype->id) }}" value="{{ $coursetype->id }}" <?=in_array( strval($coursetype->id), $myVar) ? ' Checked' : ''; ?>>
+	    		<?php } else { ?>
+	    			<input type="checkbox" name="coursetypes[]" id="{{ 'courseType' + strval($coursetype->id) }}" value="{{ $coursetype->id }}">
+
+	    		<?php } ?>
 	    		<label for="courseType{{ $coursetype->id }}">{{ $coursetype->coursetype }}</label><br>
+
 	    		
 	    	@endforeach
 	    	

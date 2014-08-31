@@ -12,13 +12,22 @@
         <script src="//cdn.ckeditor.com/4.4.4/standard/ckeditor.js"></script>
 
 
-        <!-- Scripts are placed here -->
-        {{ HTML::script('js/jquery-1.11.1.min.js') }}
-        {{ HTML::script('js/bootstrap.min.js') }}
-
+       
         <!-- CSS are placed here -->
         {{ HTML::style('css/bootstrap.css') }}
         {{ HTML::style('css/bootstrap-theme.css') }}
+        {{ HTML::style('css/sprites.css') }}
+         {{ HTML::style('css/datepicker.css') }}
+
+        <!--<style>
+            .container {
+                background: #fff;
+            }
+
+            #alert {
+                display: none;
+            }
+        </style> -->
 
         {{ HTML::style('css/site.css') }}
 
@@ -28,7 +37,18 @@
                 padding-top: 60px;
             }
         @show
-        </style>    
+        </style>
+
+
+
+        <!-- Scripts are placed here -->
+        {{ HTML::script('js/jquery-2.1.1.min.js') }}
+        {{ HTML::script('js/bootstrap.min.js') }}
+        {{ HTML::script('js/bootstrap-datepicker.js') }}
+        
+        <script>
+            $('.datepicker').datepicker();
+        </script>
 
     </head>
 
@@ -53,7 +73,7 @@
                         <li><a href="{{{ URL::to('') }}}">Home</a></li>
                         
                         @if(Auth::check())
-                            <li>{{ HTML::link('addCourse','Add a Course') }}</li>
+                            <li>{{ HTML::link('courses/create','Add a Course') }}</li>
                             <li>{{ HTML::link('logout', 'Logout') }}</li>
                         @else
                             <li>{{ HTML::link('login', 'Login') }}</li>
@@ -80,7 +100,7 @@
             @yield('content')
 
         </div>
-
+        
 
     </body>
 </html>

@@ -9,7 +9,7 @@ class Course extends Eloquent {
 	 */
 	protected $table = 'courses';
 
-	protected $fillable = array('coursename','periodnum','description','websiteURL');
+	protected $fillable = array('id','coursename','periodnum','description','websiteURL');
 
 
 
@@ -28,4 +28,11 @@ class Course extends Eloquent {
 		return $this->belongsToMany('Coursetype');
 	}
 
+	/**
+	 * Assignment relationship
+	  */
+	public function assignments()
+    {
+        return $this->hasMany('Assignment', 'course_id');
+    }
 }

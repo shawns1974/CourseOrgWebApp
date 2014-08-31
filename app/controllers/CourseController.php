@@ -21,7 +21,7 @@ class CourseController extends BaseController {
     public function create()
     {
         //
-        $this->layout->content = View::make('course.create');
+        $this->layout->content = View::make('course.create')->with('myVar', 'create');
 
         //return View::make('course/create');
     }
@@ -88,7 +88,7 @@ class CourseController extends BaseController {
             $Course->users()->save($user);
 
             
-            $this->layout->content = View::make('course/show')->with('course', $course)->with('success', 'Course Added Successfully');
+            $this->layout->content = View::make('course/show')->with('course', $Course)->with('success', 'Course Added Successfully');
         }
     }
 
@@ -210,9 +210,9 @@ class CourseController extends BaseController {
      
      public function destroy(Course $course)
      {
-        $project->delete();
+        $course->delete();
 
-        return Redirect::route('projects.index')->with('message', 'Project deleted.');
+        return Redirect::route('course/index')->with('message', 'Course deleted.');
     }
 }
 

@@ -20,7 +20,7 @@
 	<div class="col-sm-6 courseNavs">
 	  {{ link_to_route('courses.edit', 'Edit Class', array($course->coursename), array('class' => 'btn btn-xs btn-info')) }}
 	  {{ link_to_route('courses.edit', 'Add Note', array($course->coursename), array('class' => 'btn btn-xs btn-info')) }}
-	  {{ link_to_route('courses.edit', 'Add Assignment', array($course->coursename), array('class' => 'btn btn-xs btn-info')) }}
+	  {{ link_to_route('assignments.create', 'Add Assignment', array($course->id), array('class' => 'btn btn-xs btn-info')) }}
 	</div>
 	</div>
 </div>
@@ -53,10 +53,27 @@
   <!-- This is the Class Assignments Pane -->
   
   <div class="tab-pane" id="classAssignments">
-    <div class="well">
-      <p>Class Assignments will go here
-      </p>
-    </div>
+    @if(Auth::check())
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2>Assignments</h2>
+  </div>
+  <div class="panel-body">
+    <ul class="list-group">
+      @forelse ($course->assignments as $assignment)
+        <li class="list-group-item"><strong>{{ $assignment->assignmentname }}</strong>
+        {{ Form::open(array('class' => 'inline', 'method' => 'DELETE', 'route' => array('assignments.destroy', $assignment->assignmentname))) }}
+          {{ link_to_route('assignments.show', 'View', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-success')) }}
+          {{ link_to_route('assignments.edit', 'Edit', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-info')) }}
+          {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
+        {{ Form::close() }}
+      @empty
+        <li class="list-group-item"><b>You don't have any assignments yet</b></li>
+      @endforelse
+    </ul>  
+  </div>
+</div>
+@endif
   </div>
   
 </div>

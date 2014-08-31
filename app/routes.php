@@ -31,14 +31,25 @@ Route::group(array('before' => 'auth'), function()
 
     // Let's try to do it CRUD style
 
+    // Course Routes
+
     Route::model('courses', 'Course');
 
-Route::bind('courses', function($value, $route) {
+    Route::bind('courses', function($value, $route) {
         return Course::where('coursename', $value)->first();
     });
 
     Route::resource('courses','CourseController');
 
+    // Assignment Routes
+
+    Route::model('assignments', 'Assignment');
+
+    Route::bind('assignments', function($value, $route) {
+        return Assignment::where('assignmentname', $value)->first();
+    });
+
+    Route::resource('assignments','AssignmentController');
     
 
 });
