@@ -1,0 +1,21 @@
+
+
+<?php $__env->startSection('title'); ?>
+@parent
+:: Add Assignment
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h2>Edit Assignment</h2>
+</div>
+ 
+ 
+	<?php echo Form::model($assignment, ['method' => 'PATCH', 'route' => ['assignments.update', $assignment->assignmentname]]); ?>
+
+		<?php echo $__env->make('assignment/partials/_form', ['submit_text' => 'Edit Assignment'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -55,7 +55,7 @@ class CourseController extends BaseController {
         // Check if the form validates with success.
         if ($validator->fails())
         {
-            return Redirect::to('courses/create')->withErrors($validator);
+            return Redirect::to('courses/create')->withInput()->withErrors($validator);
         } else {
 
             $Course = new Course;
@@ -169,7 +169,8 @@ class CourseController extends BaseController {
         // Check if the form validates with success.
         if ($validator->fails())
         {
-            return Redirect::to('courses/edit')->withErrors($validator);
+
+            return Redirect::to('courses/edit')->withInput()->withErrors($validator);
         } else {
 
             
@@ -197,7 +198,7 @@ class CourseController extends BaseController {
 
             $Course->coursetypes()->sync(Input::get('coursetypes'));
 
-            $this->layout->content = View::make('course/show')->with('course', $course)->with('success', 'Course Updated Successfully');
+            $this->layout->content = View::make('course/show')->with('course', $Course)->with('success', 'Course Updated Successfully');
         }
     }
 

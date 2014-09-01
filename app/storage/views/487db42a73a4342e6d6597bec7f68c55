@@ -1,0 +1,69 @@
+
+
+<?php $__env->startSection('title'); ?>
+@parent
+:: <?php echo $assignment->assignmentname; ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+  <h1><span class="label label-primary"><?php echo $assignment->courses->coursename; ?></span></h1>
+	<h2><?php echo $assignment->assignmentname; ?></h2>	
+	<div class="row">
+	<div class="col-sm-6 left" role="tablist" id="classTab">
+	<?php echo HTML::link('#assignmentInfo', 'Assignment Info', array('role' => 'tab','data-toggle' => 'tab')); ?> | 
+  <?php echo HTML::link('#assignmentMaterials', 'Materials', array('role' => 'tab','data-toggle' => 'tab')); ?> | 
+	<?php echo HTML::link('#assignmentNotes', 'Notes', array('role' => 'tab','data-toggle' => 'tab')); ?>
+
+	</div>
+	<div class="col-sm-6 courseNavs">
+	  <?php echo link_to_route('courses.show', 'View Class', array($assignment->courses->coursename), array('class' => 'btn btn-xs btn-info', )); ?>
+
+	  <?php echo link_to_route('assignments.edit', 'Edit Assignment', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-info')); ?>
+
+	</div>
+	</div>
+</div>
+
+<div class="tab-content">
+  
+  <!-- This is the Class Information Pane -->
+
+  <div class="tab-pane active" id="classInfo">
+    <div class="well">
+      <p><?php echo $assignment->description; ?>
+
+      <?php if($assignment->externalURL != ""): ?>
+      <p>
+        <a href="<?php echo $assignment->externalURL; ?>" class="btn btn-sm btn-info" target="_blank">External Assignment URL</a>
+      </p>
+      <?php endif; ?>
+      </p>
+    </div>
+  </div>
+
+  <!-- This is the Assignment Material Pane -->
+
+  <div class="tab-pane" id="assignmentMaterials">
+    <div class="well">
+      <p>Assignment Materials will go here
+      </p>
+    </div>
+  </div>
+
+  <!-- This is the Assignments Notes Pane -->
+  
+  <div class="tab-pane" id="assignmentNotes">
+    <div class="well">
+      <p>Assignments notes will go here
+      </p>
+    </div>
+  </div>
+  
+</div>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

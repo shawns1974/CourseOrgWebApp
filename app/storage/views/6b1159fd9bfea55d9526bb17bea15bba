@@ -1,0 +1,125 @@
+
+
+<?php $__env->startSection('title'); ?>
+@parent
+:: <?php echo $course->coursename; ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h2><?php echo $course->coursename; ?></h2>	
+	<div class="row">
+	<div class="col-sm-6 left" role="tablist" id="classTab">
+	<?php echo HTML::link('#classInfo', 'Class Info', array('role' => 'tab','data-toggle' => 'tab')); ?> | 
+	<?php echo HTML::link('#classNotes', 'Notes', array('role' => 'tab','data-toggle' => 'tab')); ?>
+
+	<span class="badge">42</span> | 
+	<?php echo HTML::link('#classAssignments', 'Assignments', array('role' => 'tab','data-toggle' => 'tab')); ?>
+
+	<span class="badge"><?php echo $course->assignments()->where('duedate', '>=', date( 'Y-m-d'))->get()->count();; ?></span>
+	</div>
+	<div class="col-sm-6 courseNavs">
+	  <?php echo link_to_route('courses.edit', 'Edit Class', array($course->coursename), array('class' => 'btn btn-xs btn-info')); ?>
+
+	  <?php echo link_to_route('courses.edit', 'Add Note', array($course->coursename), array('class' => 'btn btn-xs btn-info')); ?>
+
+	  <?php echo link_to_route('assignments.create', 'Add Assignment', array($course->id), array('class' => 'btn btn-xs btn-info')); ?>
+
+	</div>
+	</div>
+</div>
+
+<?php
+  $lateAssignments = $course::Find($course->id)->assignments()->where('duedate', '<', date( 'Y-m-d'))->where('turnedin', '=', '0')->get()->count();
+
+?>
+
+<?php if($lateAssignments > 0): ?>
+<div class="alert alert-danger" role="alert">
+  <strong>HEY AssButt!! You have <?php echo $course->assignments()->where('duedate', '<', date( 'Y-m-d'))->where('turnedin', '=', '0')->get()->count();; ?> Assignments that are past due!!</strong>
+  <br>
+
+  <div class="panel-body">
+    <ul class="list-group">
+        <?php foreach($course->assignments()->where('duedate', '<', date( 'Y-m-d'))->where('turnedin', '=', '0')->get() as $assignment): ?>
+            <li class="list-group-item"><strong><?php echo $assignment->assignmentname; ?></strong>
+              <br>
+              Assignment was due: <?php echo $assignment->duedate; ?>
+
+              <br>
+                <?php echo link_to_route('assignments.show', 'View', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-success')); ?>
+
+                <?php echo link_to_route('assignments.edit', 'Edit', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-info')); ?>
+
+            </li>
+        <?php endforeach; ?>
+    </ul>
+  </div>
+</div>
+<?php endif; ?>
+
+
+<div class="tab-content">
+  
+  <!-- This is the Class Information Pane -->
+
+  <div class="tab-pane active" id="classInfo">
+    <div class="well">
+      <p><?php echo $course->description; ?>
+
+      <?php if($course->websiteURL != ""): ?>
+      <p>
+        <a href="<?php echo $course->websiteURL; ?>" class="btn btn-sm btn-info" target="_blank">Class URL</a>
+      </p>
+      <?php endif; ?>
+      </p>
+    </div>
+  </div>
+
+  <!-- This is the Class Notes Pane -->
+
+  <div class="tab-pane" id="classNotes">
+    <div class="well">
+      <p>Class Notes will go here
+      </p>
+    </div>
+  </div>
+
+  <!-- This is the Class Assignments Pane -->
+  
+  <div class="tab-pane" id="classAssignments">
+    <?php if(Auth::check()): ?>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2>Assignments</h2>
+  </div>
+  <div class="panel-body">
+    <ul class="list-group">
+      <?php $__empty_1 = true; foreach($course->assignments()->where('duedate', '>=', date( 'Y-m-d'))->orderBy('duedate','asc')->get() as $assignment): $__empty_1 = false; ?>
+        <li class="list-group-item"><strong><?php echo date($assignment->duedate, 'l jS \of F Y'); ?> - <?php echo $assignment->assignmentname; ?></strong>
+        <?php echo Form::open(array('class' => 'inline', 'method' => 'DELETE', 'route' => array('assignments.destroy', $assignment->assignmentname))); ?>
+
+          <?php echo link_to_route('assignments.show', 'View', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-success')); ?>
+
+          <?php echo link_to_route('assignments.edit', 'Edit', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-info')); ?>
+
+          <?php echo Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')); ?>
+
+        <?php echo Form::close(); ?>
+
+      <?php endforeach; if ($__empty_1): ?>
+        <li class="list-group-item"><b>You don't have any pending assignments</b></li>
+      <?php endif; ?>
+    </ul>  
+  </div>
+</div>
+<?php endif; ?>
+  </div>
+  
+</div>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

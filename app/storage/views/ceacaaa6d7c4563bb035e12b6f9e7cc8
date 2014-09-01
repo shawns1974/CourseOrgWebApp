@@ -1,0 +1,55 @@
+
+
+<?php $__env->startSection('title'); ?>
+@parent
+:: Login
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h2>Login to your account</h2>
+</div>
+
+<?php echo Form::open(array('url' => 'login', 'class' => 'form-horizontal')); ?>
+
+
+	<!-- Name -->
+	<div class="control-group <?php echo e($errors->has('username') ? 'error' : ''); ?>">
+		<?php echo Form::label('username', 'Username', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('username', Input::old('username')); ?>
+
+			<?php echo $errors->first('username'); ?>
+
+		</div>
+	</div>
+
+	<!-- Name -->
+	<div class="control-group <?php echo e($errors->has('password') ? 'error' : ''); ?>">
+		<?php echo Form::label('password', 'Password', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::password('password', Input::old('password')); ?>
+
+			<?php echo $errors->first('password'); ?>
+
+		</div>
+	</div>
+
+	<!-- Login button -->
+	<div class="control-group">
+		<div class="controls">
+			<?php echo Form::submit('Login', array('class' => 'btn')); ?>
+
+		</div>
+	</div>
+
+<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

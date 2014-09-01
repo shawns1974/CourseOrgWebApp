@@ -1,0 +1,100 @@
+<!-- The form Guts -->
+
+	<!-- Course Name -->
+
+
+
+	<?php echo Form::hidden('id', Input::old('id')); ?>
+
+
+
+	<div class="control-group <?php echo e($errors->has('coursename') ? 'error' : ''); ?>">
+		<?php echo Form::label('coursename', 'Course Name', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('coursename', Input::old('coursename')); ?>
+
+			<?php echo $errors->first('coursename'); ?>
+
+		</div>
+	</div>
+	<br>
+
+	<!-- Course Description -->
+	<div class="control-group <?php echo e($errors->has('description') ? 'error' : ''); ?>">
+		<?php echo Form::label('description', 'Course Description', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::textarea('description', Input::old('description')); ?>
+
+			<?php echo $errors->first('description'); ?>
+
+		</div>
+	</div>
+
+	<script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'description' );
+    </script>
+    <br>
+
+	<!-- Period Number -->
+	<div class="control-group <?php echo e($errors->has('periodnum') ? 'error' : ''); ?>">
+		<?php echo Form::label('periodnum', 'Period Number', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('periodnum', Input::old('periodnum')); ?>
+
+			<?php echo $errors->first('periodnum'); ?>
+
+		</div>
+	</div>
+	<br>
+
+	<!-- Website URL -->
+	<div class="control-group <?php echo e($errors->has('websiteURL') ? 'error' : ''); ?>">
+		<?php echo Form::label('websiteURL', 'Website URL', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('websiteURL', Input::old('websiteURL')); ?>
+
+			<?php echo $errors->first('websiteURL'); ?>
+
+		</div>
+	</div>
+	<br>
+
+	<!-- Course Type  -->
+	<div class="control-group">
+	    <label class="control-label" for="body">Course Type</label>
+	    <div class="controls">
+
+	    	<?php foreach(Coursetype::all() as $coursetype): ?>
+	    		<?php if ($myVar != "create"){ ?>
+	    			<input type="checkbox" name="coursetypes[]" id="<?php echo 'courseType' + strval($coursetype->id); ?>" value="<?php echo $coursetype->id; ?>" <?=in_array( strval($coursetype->id), $myVar) ? ' Checked' : ''; ?>>
+	    		<?php } else { ?>
+	    			<input type="checkbox" name="coursetypes[]" id="<?php echo 'courseType' + strval($coursetype->id); ?>" value="<?php echo $coursetype->id; ?>">
+
+	    		<?php } ?>
+	    		<label for="courseType<?php echo $coursetype->id; ?>"><?php echo $coursetype->coursetype; ?></label><br>
+
+	    		
+	    	<?php endforeach; ?>
+	    	
+	    </div>
+	 </div>
+	 <!-- ./ Course Type -->
+	 <br>
+
+	<!-- Login button -->
+	<div class="control-group">
+		<div class="controls">
+			<?php echo Form::submit('Add Course', array('class' => 'btn')); ?>
+
+		</div>
+	</div>

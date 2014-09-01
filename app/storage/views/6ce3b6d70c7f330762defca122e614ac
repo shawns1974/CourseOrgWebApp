@@ -1,0 +1,12 @@
+
+
+<?php $__env->startSection('title'); ?>
+@parent
+:: Secret
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<h1>Hello, AssButt!</h1>
+<p>If you see this page, then I kick ass</p>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

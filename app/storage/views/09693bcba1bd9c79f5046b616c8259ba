@@ -1,0 +1,93 @@
+
+
+<?php $__env->startSection('title'); ?>
+@parent
+:: Add Course
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h2>Add a Course</h2>
+</div>
+
+<?php echo Form::open(array('url' => 'addCourse', 'class' => 'form-horizontal')); ?>
+
+
+	<!-- Course Name -->
+	<div class="control-group <?php echo e($errors->has('username') ? 'error' : ''); ?>">
+		<?php echo Form::label('coursename', 'Course Name', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('coursename', Input::old('coursename')); ?>
+
+			<?php echo $errors->first('coursename'); ?>
+
+		</div>
+	</div>
+
+	<!-- Course Description -->
+	<div class="control-group <?php echo e($errors->has('description') ? 'error' : ''); ?>">
+		<?php echo Form::label('description', 'Course Description', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::textarea('description', Input::old('description')); ?>
+
+			<?php echo $errors->first('description'); ?>
+
+		</div>
+	</div>
+
+	<!-- Period Number -->
+	<div class="control-group <?php echo e($errors->has('periodnum') ? 'error' : ''); ?>">
+		<?php echo Form::label('periodnum', 'Period Number', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('periodnum', Input::old('periodnum')); ?>
+
+			<?php echo $errors->first('periodnum'); ?>
+
+		</div>
+	</div>
+
+	<!-- Website URL -->
+	<div class="control-group <?php echo e($errors->has('websiteURL') ? 'error' : ''); ?>">
+		<?php echo Form::label('websiteURL', 'Website URL', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::textarea('websiteURL', Input::old('websiteURL')); ?>
+
+			<?php echo $errors->first('websiteURL'); ?>
+
+		</div>
+	</div>
+
+	<!-- Course Type  -->
+	<div class="form-group">
+	    <label class="col-md-2 control-label" for="body">Course Type</label>
+	    <div class="col-md-10">
+	    	<select name="coursetypes[]" id="coursetypes" size="6" class="form-control" multiple>
+	        	<?php foreach(Coursetype::all() as $coursetype): ?>
+	            	<option value="<?php echo $coursetype->id; ?>" ><?php echo $coursetype->coursetype; ?></option>
+	        	<?php endforeach; ?>
+	    	</select>
+	    </div>
+	 </div>
+	 <!-- ./ Course Type -->
+
+	<!-- Login button -->
+	<div class="control-group">
+		<div class="controls">
+			<?php echo Form::submit('Add Course', array('class' => 'btn')); ?>
+
+		</div>
+	</div>
+
+<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

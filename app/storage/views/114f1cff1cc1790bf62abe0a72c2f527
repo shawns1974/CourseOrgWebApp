@@ -1,0 +1,331 @@
+<!-- The form Guts -->
+
+	<!-- Course Name -->
+
+
+
+
+	<?php echo Form::hidden('id', Input::old('id')); ?>
+
+
+
+	<div class="control-group <?php echo e($errors->has('coursename') ? 'error' : ''); ?>">
+		<?php echo Form::label('assignmentname', 'Assignment Name', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('assignmentname', Input::old('assignmentname')); ?>
+
+			<?php echo $errors->first('assignmentname'); ?>
+
+		</div>
+	</div>
+	<br>
+
+
+	<!-- Course  -->
+	<div class="control-group">
+	    <label class="control-label" for="body">Course</label>
+	    <div class="controls">
+
+	    	<?php
+
+
+	    	if(isset($cid)) {
+	    		$courseId = $cid;
+
+	    	} else {
+	    		$courseId = Input::old('course_id');
+	    	}
+
+
+
+	    	$courses = new Course;
+
+	    	//$courses = Course::lists('coursename', 'id')->with(user->id,Auth::user()->getId());
+	    	//$courses = Course::lists('coursename', 'id')->user()->where('id', '=', Auth::user()->getId())->get();
+	    	//$courses = $tempCourse::lists('coursename', 'id');
+
+	    	$courses = Auth::user()->courses->lists('coursename', 'id');
+	    	//$courses = $tempcourses::lists('coursename', 'id');
+
+	    	?>
+
+
+	    	<?php echo Form::select('course_id', $courses, $courseId); ?>
+
+	    	
+	    </div>
+	 </div>
+	 <!-- ./ Course Type -->
+	 <br>
+
+
+
+    <!-- Assign Date -->
+    <div class="control-group <?php echo e($errors->has('assigndate') ? 'error' : ''); ?>">
+    	<?php echo Form::label('assigndate', 'Date Assigned', array('class' => 'control-label')); ?>
+
+
+    	<div class="controls">
+            <?php echo Form::text('assigndate', Input::old('assigndate'), array( 'id' => 'assigndate', 'class' => 'span2', 'data-date-format' => 'yyyy-mm-dd', 'placeholder' => 'Click for Date')); ?>
+
+    		<?php echo $errors->first('assigndate2'); ?>
+
+    	</div>
+
+    </div>
+    <br>
+
+
+
+
+	
+
+    <!-- Due Date -->
+    <div class="control-group <?php echo e($errors->has('duedate') ? 'error' : ''); ?>">
+    	<?php echo Form::label('duedate', 'Date Due', array('class' => 'control-label')); ?>
+
+
+    	<div class="controls">
+            <?php echo Form::text('duedate', Input::old('duedate'), array('id' => 'duedate', 'class' => 'span2', 'data-date-format' => 'yyyy-mm-dd', 'placeholder' => 'Click for Date')); ?>
+
+    		<?php echo $errors->first('duedate'); ?>
+
+    	</div>
+    </div>
+    <br>
+
+
+
+
+	<!-- Assignment Description -->
+	<div class="control-group <?php echo e($errors->has('description') ? 'error' : ''); ?>">
+		<?php echo Form::label('description', 'Assignment Description', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::textarea('description', Input::old('description')); ?>
+
+			<?php echo $errors->first('description'); ?>
+
+		</div>
+	</div>
+
+	<script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'description' );
+    </script>
+    <br>
+
+	<!-- Assignment Materials -->
+	<div class="control-group <?php echo e($errors->has('materials') ? 'error' : ''); ?>">
+		<?php echo Form::label('materials', 'Assignment Materials', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::textarea('materials', Input::old('materials')); ?>
+
+			<?php echo $errors->first('materials'); ?>
+
+		</div>
+	</div>
+
+	<script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'materials' );
+    </script>
+    <br>
+
+	<!-- Assignment Notes -->
+	<div class="control-group <?php echo e($errors->has('notes') ? 'error' : ''); ?>">
+		<?php echo Form::label('notes', 'Assignment Notes', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::textarea('notes', Input::old('notes')); ?>
+
+			<?php echo $errors->first('notes'); ?>
+
+		</div>
+	</div>
+
+	<script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'notes' );
+    </script>
+    <br>
+
+	<!-- External URL -->
+	<div class="control-group <?php echo e($errors->has('websiteURL') ? 'error' : ''); ?>">
+		<?php echo Form::label('externalURL', 'External URL', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('externalURL', Input::old('externalURL')); ?>
+
+			<?php echo $errors->first('externalURL'); ?>
+
+		</div>
+	</div>
+	<br>
+
+	<!-- Completed -->
+
+	<?php 
+
+		if(! isset($completed)) {
+			$completed = Input::old('completed');
+		}
+
+	?>
+
+	<input type="checkbox" name="completed" id="completed" value="1" <?=$completed == 1 ? ' Checked' : ''; ?>>
+	<label for="completed">Assignment Completed</label><br>
+
+    <!-- Completed Date -->
+    <div class="control-group <?php echo e($errors->has('completeddate') ? 'error' : ''); ?>">
+    	<?php echo Form::label('completeddate', 'Completed Due', array('class' => 'control-label')); ?>
+
+
+    	<div class="controls">
+            <?php echo Form::text('completeddate', Input::old('completeddate'), array('id' => 'completeddate', 'class' => 'span2', 'data-date-format' => 'yyyy-mm-dd', 'placeholder' => 'Click for Date')); ?>
+
+    		<?php echo $errors->first('completeddate'); ?>
+
+    	</div>
+    </div>
+    <br>
+
+	<!-- Turned In -->
+	<?php
+
+		if(! isset($turnedin)) {
+			$turnedin = Input::old('turnedin');
+		}
+	
+	?>
+
+	<input type="checkbox" name="turnedin" id="completed" value="1" <?=$turnedin == 1 ? ' Checked' : ''; ?>>
+	<label for="completed">Assignment Turned In</label><br>
+
+    <!-- Turned In Date -->
+    <div class="control-group <?php echo e($errors->has('turnedindate') ? 'error' : ''); ?>">
+    	<?php echo Form::label('turnedindate', 'Date Turned In', array('class' => 'control-label')); ?>
+
+
+    	<div class="controls">
+            <?php echo Form::text('turnedindate', Input::old('turnedin'), array('id' => 'turnedindate', 'class' => 'span2', 'data-date-format' => 'yyyy-mm-dd', 'placeholder' => 'Click for Date')); ?>
+
+    		<?php echo $errors->first('turnedindate'); ?>
+
+    	</div>
+    </div>
+    <br>
+
+    <!-- Number Correct -->
+	<div class="control-group <?php echo e($errors->has('correct') ? 'error' : ''); ?>">
+		<?php echo Form::label('correct', 'Number Correct', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('correct', Input::old('correct')); ?>
+
+			<?php echo $errors->first('correct'); ?>
+
+		</div>
+	</div>
+	<br>
+
+	<!-- Number Possible -->
+	<div class="control-group <?php echo e($errors->has('possible') ? 'error' : ''); ?>">
+		<?php echo Form::label('possible', 'Number Possible', array('class' => 'control-label')); ?>
+
+
+		<div class="controls">
+			<?php echo Form::text('possible', Input::old('possible')); ?>
+
+			<?php echo $errors->first('possible'); ?>
+
+		</div>
+	</div>
+	<br>
+
+	<!-- Login button -->
+	<div class="control-group">
+		<div class="controls">
+			<?php echo Form::submit('submit Assignment', array('class' => 'btn')); ?>
+
+		</div>
+	</div>
+
+	
+
+	<script>
+	if (top.location != location) {
+    top.location.href = document.location.href ;
+  }
+		$(function(){
+			window.prettyPrint && prettyPrint();
+			
+			$('#assigndate').datepicker();
+			$('#duedate').datepicker();
+			$('#completeddate').datepicker();
+			$('#turnedindate').datepicker();
+			
+
+        // disabling dates
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+        
+        var checkout = $('#assigndate').datepicker({
+          onRender: function(date) {
+            return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+          }
+        }).on('changeDate', function(ev) {
+          checkout.hide();
+        }).data('datepicker');
+
+
+        var checkout = $('#duedate').datepicker({
+          onRender: function(date) {
+            return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+          }
+        }).on('changeDate', function(ev) {
+          checkout.hide();
+        }).data('datepicker');
+
+
+        var checkout = $('#completeddate').datepicker({
+          onRender: function(date) {
+            return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+          }
+        }).on('changeDate', function(ev) {
+          checkout.hide();
+        }).data('datepicker');
+
+
+        var checkout = $('#turnedindate').datepicker({
+          onRender: function(date) {
+            return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+          }
+        }).on('changeDate', function(ev) {
+          checkout.hide();
+        }).data('datepicker');
+		
+		
+		
+
+
+		});
+
+
+
+
+
+	</script>
+</script>

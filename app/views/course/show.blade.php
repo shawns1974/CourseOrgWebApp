@@ -15,7 +15,7 @@
 	{{ HTML::link('#classNotes', 'Notes', array('role' => 'tab','data-toggle' => 'tab')) }}
 	<span class="badge">42</span> | 
 	{{ HTML::link('#classAssignments', 'Assignments', array('role' => 'tab','data-toggle' => 'tab')) }}
-	<span class="badge">42</span>
+	<span class="badge">{{ $course->assignments()->where('duedate', '>=', date( 'Y-m-d'))->get()->count(); }}</span>
 	</div>
 	<div class="col-sm-6 courseNavs">
 	  {{ link_to_route('courses.edit', 'Edit Class', array($course->coursename), array('class' => 'btn btn-xs btn-info')) }}
@@ -24,6 +24,33 @@
 	</div>
 	</div>
 </div>
+
+<?php
+  $lateAssignments = $course::Find($course->id)->assignments()->where('duedate', '<', date( 'Y-m-d'))->where('turnedin', '=', '0')->get()->count();
+
+?>
+
+@if ($lateAssignments > 0)
+<div class="alert alert-danger" role="alert">
+  <strong>HEY AssButt!! You have {{ $course->assignments()->where('duedate', '<', date( 'Y-m-d'))->where('turnedin', '=', '0')->get()->count(); }} Assignments that are past due!!</strong>
+  <br>
+
+  <div class="panel-body">
+    <ul class="list-group">
+        @foreach($course->assignments()->where('duedate', '<', date( 'Y-m-d'))->where('turnedin', '=', '0')->get() as $assignment)
+            <li class="list-group-item"><strong>{{ $assignment->assignmentname }}</strong>
+              <br>
+              Assignment was due: {{ $assignment->duedate}}
+              <br>
+                {{ link_to_route('assignments.show', 'View', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-success')) }}
+                {{ link_to_route('assignments.edit', 'Edit', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-info')) }}
+            </li>
+        @endforeach
+    </ul>
+  </div>
+</div>
+@endif
+
 
 <div class="tab-content">
   
@@ -60,15 +87,15 @@
   </div>
   <div class="panel-body">
     <ul class="list-group">
-      @forelse ($course->assignments as $assignment)
-        <li class="list-group-item"><strong>{{ $assignment->assignmentname }}</strong>
+      @forelse ($course->assignments()->where('duedate', '>=', date( 'Y-m-d'))->orderBy('duedate','asc')->get() as $assignment)
+        <li class="list-group-item"><strong>{{ date($assignment->duedate, 'l jS \of F Y') }} - {{ $assignment->assignmentname }}</strong>
         {{ Form::open(array('class' => 'inline', 'method' => 'DELETE', 'route' => array('assignments.destroy', $assignment->assignmentname))) }}
           {{ link_to_route('assignments.show', 'View', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-success')) }}
           {{ link_to_route('assignments.edit', 'Edit', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-info')) }}
           {{ Form::submit('Delete', array('class' => 'btn btn-xs btn-danger')) }}
         {{ Form::close() }}
       @empty
-        <li class="list-group-item"><b>You don't have any assignments yet</b></li>
+        <li class="list-group-item"><b>You don't have any pending assignments</b></li>
       @endforelse
     </ul>  
   </div>

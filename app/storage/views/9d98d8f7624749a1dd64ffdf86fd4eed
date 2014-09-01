@@ -1,0 +1,21 @@
+
+
+<?php $__env->startSection('title'); ?>
+@parent
+:: Add Course
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h2>Add a Course</h2>
+</div>
+
+ 
+	<?php echo Form::model(new Course, ['route' => ['courses.store']]); ?>
+
+		<?php echo $__env->make('course/partials/_form', ['submit_text' => 'Create Course'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

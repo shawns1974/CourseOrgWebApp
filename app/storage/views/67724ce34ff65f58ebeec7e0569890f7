@@ -1,0 +1,24 @@
+
+
+<?php $__env->startSection('title'); ?>
+@parent
+:: Add Course
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h2>Edit Course</h2>
+</div>
+ 
+ 
+<?php echo $course->coursename; ?>
+
+
+	<?php echo Form::model($course, ['method' => 'PATCH', 'route' => ['courses.update', $course->coursename]]); ?>
+
+		<?php echo $__env->make('course/partials/_form', ['submit_text' => 'Edit Course'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
