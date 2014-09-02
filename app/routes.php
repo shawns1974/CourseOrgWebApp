@@ -41,6 +41,11 @@ Route::group(array('before' => 'auth'), function()
 
     Route::resource('courses','CourseController');
 
+    // This route reorders the course sections from the course/show view
+
+    Route::any('reorderSections', 'CourseController@reorderSections');
+
+
     // Assignment Routes
 
     Route::model('assignments', 'Assignment');
@@ -51,5 +56,15 @@ Route::group(array('before' => 'auth'), function()
 
     Route::resource('assignments','AssignmentController');
     
+    // Section Routes
+
+    Route::model('sections', 'Section');
+
+    Route::bind('sections', function($value, $route) {
+        return Section::where('sectionname', $value)->first();
+    });
+
+    Route::resource('sections','SectionController');
+
 
 });

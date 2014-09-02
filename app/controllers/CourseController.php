@@ -215,6 +215,24 @@ class CourseController extends BaseController {
 
         return Redirect::route('course/index')->with('message', 'Course deleted.');
     }
+
+    // This function is used to reorder the sections
+
+    public function reorderSections() {
+      // Get the input from the jquery post
+      $updateRecordsArray = Input::get('rank');
+        $i = 1;
+
+        // Loop though the <li>
+        foreach ($updateRecordsArray as $recordID) {
+
+            DB::table('sections')->where('id', '=', $recordID)->update(array('rank' => $i));
+            $i++;
+        }
+
+        return Response::json('ok');  
+}
+
 }
 
 

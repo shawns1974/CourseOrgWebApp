@@ -49,6 +49,9 @@
         <!-- Scripts are placed here -->
         <?php echo HTML::script('js/jquery-2.1.1.min.js'); ?>
 
+        <?php echo HTML::script('//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'); ?>
+
+
         <?php echo HTML::script('js/bootstrap.min.js'); ?>
 
         <?php echo HTML::script('js/bootstrap-datepicker.js'); ?>

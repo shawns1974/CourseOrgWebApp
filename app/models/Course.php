@@ -35,4 +35,12 @@ class Course extends Eloquent {
     {
         return $this->hasMany('Assignment', 'course_id');
     }
+
+	/**
+	 * Section relationship
+	  */
+	public function sections()
+    {
+        return $this->hasMany('Section', 'course_id');
+    }
 }

@@ -43,6 +43,8 @@
 
         <!-- Scripts are placed here -->
         {{ HTML::script('js/jquery-2.1.1.min.js') }}
+        {{ HTML::script('//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js') }}
+
         {{ HTML::script('js/bootstrap.min.js') }}
         {{ HTML::script('js/bootstrap-datepicker.js') }}
         

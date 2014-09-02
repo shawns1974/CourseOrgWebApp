@@ -19,6 +19,7 @@
 	</div>
 	<div class="col-sm-6 courseNavs">
 	  {{ link_to_route('courses.edit', 'Edit Class', array($course->coursename), array('class' => 'btn btn-xs btn-info')) }}
+    {{ link_to_route('sections.create', 'Add Section', array($course->id), array('class' => 'btn btn-xs btn-info')) }}
 	  {{ link_to_route('courses.edit', 'Add Note', array($course->coursename), array('class' => 'btn btn-xs btn-info')) }}
 	  {{ link_to_route('assignments.create', 'Add Assignment', array($course->id), array('class' => 'btn btn-xs btn-info')) }}
 	</div>
@@ -74,9 +75,39 @@
     <div class="well">
       <p>Class Notes will go here
       </p>
+      <div class="panel-body">      
+        <ul class="list-group">
+          <?php
+              $courseSections = Section::where('course_id', '=', $course->id)->orderBy('rank', 'ASC')->get();
+          ?>
+
+          @forelse ($courseSections as $section)
+            <li class="list-group-item"><strong>{{ $section->sectionname }}</strong></li>
+          @empty
+            <li class="list-group-item"><b>You don't have any class sections</b></li>
+          @endforelse
+        </ul>
+        <br>
+        <br>
+        <ul class='sortable' style="list-style:none;">
+          @foreach($courseSections as $thisCat)
+            <li class="list-group-item" id="{{ $thisCat->id }}">{{ $thisCat->sectionname }}</li>
+          @endforeach
+        </ul>
+      </div>
     </div>
   </div>
 
+<script>
+$(".sortable").sortable({
+                update: function( event, ui ) {
+                    var rank = $(this).sortable('toArray');
+                    console.log(rank);
+                    $.post('sectionReorder', { rank: rank });
+                }
+            }); 
+
+</script>
   <!-- This is the Class Assignments Pane -->
   
   <div class="tab-pane" id="classAssignments">
@@ -88,7 +119,7 @@
   <div class="panel-body">
     <ul class="list-group">
       @forelse ($course->assignments()->where('duedate', '>=', date( 'Y-m-d'))->orderBy('duedate','asc')->get() as $assignment)
-        <li class="list-group-item"><strong>{{ date($assignment->duedate, 'l jS \of F Y') }} - {{ $assignment->assignmentname }}</strong>
+        <li class="list-group-item"><strong>{{ $assignment->duedate }} - {{ $assignment->assignmentname }}</strong>
         {{ Form::open(array('class' => 'inline', 'method' => 'DELETE', 'route' => array('assignments.destroy', $assignment->assignmentname))) }}
           {{ link_to_route('assignments.show', 'View', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-success')) }}
           {{ link_to_route('assignments.edit', 'Edit', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-info')) }}

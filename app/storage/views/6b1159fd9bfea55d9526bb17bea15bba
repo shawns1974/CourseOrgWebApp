@@ -23,6 +23,8 @@
 	<div class="col-sm-6 courseNavs">
 	  <?php echo link_to_route('courses.edit', 'Edit Class', array($course->coursename), array('class' => 'btn btn-xs btn-info')); ?>
 
+    <?php echo link_to_route('sections.create', 'Add Section', array($course->id), array('class' => 'btn btn-xs btn-info')); ?>
+
 	  <?php echo link_to_route('courses.edit', 'Add Note', array($course->coursename), array('class' => 'btn btn-xs btn-info')); ?>
 
 	  <?php echo link_to_route('assignments.create', 'Add Assignment', array($course->id), array('class' => 'btn btn-xs btn-info')); ?>
@@ -84,9 +86,39 @@
     <div class="well">
       <p>Class Notes will go here
       </p>
+      <div class="panel-body">      
+        <ul class="list-group">
+          <?php
+              $courseSections = Section::where('course_id', '=', $course->id)->orderBy('rank', 'ASC')->get();
+          ?>
+
+          <?php $__empty_1 = true; foreach($courseSections as $section): $__empty_1 = false; ?>
+            <li class="list-group-item"><strong><?php echo $section->sectionname; ?></strong></li>
+          <?php endforeach; if ($__empty_1): ?>
+            <li class="list-group-item"><b>You don't have any class sections</b></li>
+          <?php endif; ?>
+        </ul>
+        <br>
+        <br>
+        <ul class='sortable' style="list-style:none;">
+          <?php foreach($courseSections as $thisCat): ?>
+            <li class="list-group-item" id="<?php echo $thisCat->id; ?>"><?php echo $thisCat->sectionname; ?></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
     </div>
   </div>
 
+<script>
+$(".sortable").sortable({
+                update: function( event, ui ) {
+                    var rank = $(this).sortable('toArray');
+                    console.log(rank);
+                    $.post('sectionReorder', { rank: rank });
+                }
+            }); 
+
+</script>
   <!-- This is the Class Assignments Pane -->
   
   <div class="tab-pane" id="classAssignments">
@@ -98,7 +130,7 @@
   <div class="panel-body">
     <ul class="list-group">
       <?php $__empty_1 = true; foreach($course->assignments()->where('duedate', '>=', date( 'Y-m-d'))->orderBy('duedate','asc')->get() as $assignment): $__empty_1 = false; ?>
-        <li class="list-group-item"><strong><?php echo date($assignment->duedate, 'l jS \of F Y'); ?> - <?php echo $assignment->assignmentname; ?></strong>
+        <li class="list-group-item"><strong><?php echo $assignment->duedate; ?> - <?php echo $assignment->assignmentname; ?></strong>
         <?php echo Form::open(array('class' => 'inline', 'method' => 'DELETE', 'route' => array('assignments.destroy', $assignment->assignmentname))); ?>
 
           <?php echo link_to_route('assignments.show', 'View', array($assignment->assignmentname), array('class' => 'btn btn-xs btn-success')); ?>
