@@ -19,4 +19,13 @@ class Section extends Eloquent {
 		return $this->belongsTo('Course', 'course_id');
 	}
 
+/**
+	 * Section relationship
+	  */
+	public function notes()
+    {
+        return $this->hasMany('Note', 'section_id');
+    }
+
+
 }

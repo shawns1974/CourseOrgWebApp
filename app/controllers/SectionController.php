@@ -175,7 +175,7 @@ class SectionController extends BaseController {
             if (Input::get('currCourseID') != Input::get('course_id')){
                 $Section->course_id = Input::get('course_id');
 
-                $section->rank = Section::where('course_id', '=', Input:::get('course_id'))->orderBy('rank', 'DESC')->first()->rank + 1;
+                $section->rank = Section::where('course_id', '=', Input::get('course_id'))->orderBy('rank', 'DESC')->first()->rank + 1;
             }
 
 
@@ -198,7 +198,7 @@ class SectionController extends BaseController {
      {
         $section->delete();
 
-        return Redirect::route('sectino/index')->with('message', 'Section deleted.');
+        return Redirect::route('section/index')->with('message', 'Section deleted.');
     }
 }
 

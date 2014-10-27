@@ -25,7 +25,7 @@
 
     <?php echo link_to_route('sections.create', 'Add Section', array($course->id), array('class' => 'btn btn-xs btn-info')); ?>
 
-	  <?php echo link_to_route('courses.edit', 'Add Note', array($course->coursename), array('class' => 'btn btn-xs btn-info')); ?>
+	  <?php echo link_to_route('notes.create', 'Add Note', array($course->id, 0), array('class' => 'btn btn-xs btn-info')); ?>
 
 	  <?php echo link_to_route('assignments.create', 'Add Assignment', array($course->id), array('class' => 'btn btn-xs btn-info')); ?>
 
@@ -82,24 +82,17 @@
 
   <!-- This is the Class Notes Pane -->
 
+
+<?php
+  $courseSections = $course::Find($course->id)->sections()->orderBy('rank', 'ASC')->get();
+
+?>
+
   <div class="tab-pane" id="classNotes">
     <div class="well">
       <p>Class Notes will go here
       </p>
       <div class="panel-body">      
-        <ul class="list-group">
-          <?php
-              $courseSections = Section::where('course_id', '=', $course->id)->orderBy('rank', 'ASC')->get();
-          ?>
-
-          <?php $__empty_1 = true; foreach($courseSections as $section): $__empty_1 = false; ?>
-            <li class="list-group-item"><strong><?php echo $section->sectionname; ?></strong></li>
-          <?php endforeach; if ($__empty_1): ?>
-            <li class="list-group-item"><b>You don't have any class sections</b></li>
-          <?php endif; ?>
-        </ul>
-        <br>
-        <br>
         <ul class='sortable' style="list-style:none;">
           <?php foreach($courseSections as $thisCat): ?>
             <li class="list-group-item" id="<?php echo $thisCat->id; ?>"><?php echo $thisCat->sectionname; ?></li>

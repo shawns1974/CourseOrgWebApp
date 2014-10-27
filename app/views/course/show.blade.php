@@ -20,7 +20,7 @@
 	<div class="col-sm-6 courseNavs">
 	  {{ link_to_route('courses.edit', 'Edit Class', array($course->coursename), array('class' => 'btn btn-xs btn-info')) }}
     {{ link_to_route('sections.create', 'Add Section', array($course->id), array('class' => 'btn btn-xs btn-info')) }}
-	  {{ link_to_route('courses.edit', 'Add Note', array($course->coursename), array('class' => 'btn btn-xs btn-info')) }}
+	  {{ link_to_route('notes.create', 'Add Note', array($course->id, 0), array('class' => 'btn btn-xs btn-info')) }}
 	  {{ link_to_route('assignments.create', 'Add Assignment', array($course->id), array('class' => 'btn btn-xs btn-info')) }}
 	</div>
 	</div>
@@ -71,24 +71,17 @@
 
   <!-- This is the Class Notes Pane -->
 
+
+<?php
+  $courseSections = $course::Find($course->id)->sections()->orderBy('rank', 'ASC')->get();
+
+?>
+
   <div class="tab-pane" id="classNotes">
     <div class="well">
       <p>Class Notes will go here
       </p>
       <div class="panel-body">      
-        <ul class="list-group">
-          <?php
-              $courseSections = Section::where('course_id', '=', $course->id)->orderBy('rank', 'ASC')->get();
-          ?>
-
-          @forelse ($courseSections as $section)
-            <li class="list-group-item"><strong>{{ $section->sectionname }}</strong></li>
-          @empty
-            <li class="list-group-item"><b>You don't have any class sections</b></li>
-          @endforelse
-        </ul>
-        <br>
-        <br>
         <ul class='sortable' style="list-style:none;">
           @foreach($courseSections as $thisCat)
             <li class="list-group-item" id="{{ $thisCat->id }}">{{ $thisCat->sectionname }}</li>
